@@ -1,0 +1,19 @@
+# --- PyCharm / IntelliJ IDE ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# --- Python Environment & Caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+build/
+dist/
+*.egg-info/
+plan.md
