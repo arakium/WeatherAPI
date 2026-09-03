@@ -3,6 +3,7 @@ from flask import Flask, request
 from flask_limiter import Limiter, RateLimitExceeded
 from flask_limiter.util import get_remote_address
 from pydantic import ValidationError as PydanticValidationError
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from model import WeatherRequest, CityRequest
 from cache import get_cached_data, get_redis_url
@@ -10,6 +11,7 @@ from exceptions import WeatherAPIError, format_pydantic_errors
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
 
 limiter = Limiter(
     get_remote_address,
@@ -51,5 +53,5 @@ def weather():
     city = request.args.get("city")
 
     requested_city = CityRequest(city=city)
-
+    print(request.headers)
     return get_cached_data(requested_city.city).model_dump()
