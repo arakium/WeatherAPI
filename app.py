@@ -53,5 +53,4 @@ def weather():
     city = request.args.get("city")
 
     requested_city = CityRequest(city=city)
-    print(request.headers)
     return get_cached_data(requested_city.city).model_dump()
